@@ -20,7 +20,13 @@
     "Programming Languages",
     "Other"
   ],
-  "icon": "icon.png",
+  "publisher": "natanfeitosa",
+  "keywords": [
+    "portuscript",
+    "portugol",
+    "portugues",
+    "linguagem"
+  ],
   "contributes": {
     "languages": [
       {

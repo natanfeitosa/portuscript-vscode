@@ -66,27 +66,20 @@
 		"variavel-atribuicao": {
 			"patterns": [
 				{
-					"match": "\\b(?<!var)\\b\\s+([_$[:alpha:]][_$[:alnum:]]*)\\s*(?<=\\=)",
-					"captures": {
-						"1": {
-							"name": "variable.name.portuscript"
-						}
-					}
+					"match": "(?<=\\bvar\\s)\\b[_$[:alpha:]][_$[:alnum:]]*\\b",
+					"name": "variable.name.portuscript"
 				}
 			]
 		},
 		"constante-atribuicao": {
 			"patterns": [
 				{
-					"match": "\\b(?<!const)\\b\\s+([_$[:alpha:]][_$[:alnum:]]*)\\s*(?<=\\=)",
-					"captures": {
-						"1": {
-							"name": "constant.name.portuscript"
-						}
-					}
+					"match": "(?<=\\bconst\\s)\\b[_$[:alpha:]][_$[:alnum:]]*\\b",
+					"name": "constant.name.portuscript"
 				}
 			]
-		},
+		}
+		,
 		"importe": {
 			"comment": "Declaração de importação para marcar expressões `de` e `importe`\n",
 			"patterns": [
