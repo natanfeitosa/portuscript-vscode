@@ -1,6 +1,6 @@
 {
-  "name": "portuscript-vscode",
-  "displayName": "Portuscript VSCode",
+  "name": "vscode-portuscript",
+  "displayName": "Portuscript",
   "description": "Provê syntax highlighting, pedaços de codigo e outras funcionalidades úteis para facilitar o desenvolvimento em Portuscript",
   "version": "0.0.1",
   "engines": {
