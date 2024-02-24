@@ -1,0 +1,459 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Portuscript",
+	"patterns": [
+		{
+			"include": "#declaracao"
+		},
+		{
+			"include": "#expressao"
+		}
+	],
+	"repository": {
+		"declaracao": {
+			"patterns": [
+				{
+					"include": "#importe"
+				},
+				{
+					"include": "#atribuicao"
+				},
+				{
+					"include": "#declaracao-funcao"
+				},
+				{
+					"name": "keyword.control.flow.portuscript",
+					"match": "(?x)\n  \\b(?<!\\.)(\n    continue | pare | para\n    | de | senao | se\n    | retorne | enquanto\n  )\\b\n"
+				},
+				{
+					"include": "#operador-atribuicao"
+				},
+				{
+					"include": "#ponto-e-virgula"
+				}
+			]
+		},
+		"atribuicao": {
+			"name": "meta.atribuicao.portuscript",
+			"begin": "\\b(?<!\\.)(var|const)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.portuscript"
+				}
+			},
+			"end": "(?=\\;)",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.terminator.statement.portuscript"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#variavel-atribuicao"
+				},
+				{
+					"include": "#constante-atribuicao"
+				},
+				{
+					"name": "keyword.operator.assignment.portuscript",
+					"match": "="
+				},
+				{
+					"include": "#expressao"
+				}
+			]
+		},
+		"variavel-atribuicao": {
+			"patterns": [
+				{
+					"match": "\\b(?<!var)\\b\\s+([_$[:alpha:]][_$[:alnum:]]*)\\s*(?<=\\=)",
+					"captures": {
+						"1": {
+							"name": "variable.name.portuscript"
+						}
+					}
+				}
+			]
+		},
+		"constante-atribuicao": {
+			"patterns": [
+				{
+					"match": "\\b(?<!const)\\b\\s+([_$[:alpha:]][_$[:alnum:]]*)\\s*(?<=\\=)",
+					"captures": {
+						"1": {
+							"name": "constant.name.portuscript"
+						}
+					}
+				}
+			]
+		},
+		"importe": {
+			"comment": "Declaração de importação para marcar expressões `de` e `importe`\n",
+			"patterns": [
+				{
+					"begin": "\\b(?<!\\.)(de)\\b(?=.+importe)",
+					"end": "(?=importe)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.import.portuscript"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#texto"
+						},
+						{
+							"include": "#expressao"
+						}
+					]
+				},
+				{
+					"begin": "\\b(?<!\\.)(importe)\\b",
+					"end": "(?=\\;)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.import.portuscript"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#texto"
+						}
+					]
+				}
+			]
+		},
+		"declaracao-bloco": {
+			"name": "meta.block.portuscript",
+			"begin": "\\{",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.block.portuscript"
+				}
+			},
+			"end": "\\}",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.block.portuscript"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#declaracao"
+				},
+				{
+					"include": "#expressao"
+				}
+			]
+		},
+		"declaracao-funcao": {
+			"name": "meta.function.portuscript",
+			"begin": "(?x)\n  \\s*\n \\b(func)\\s+([_$[:alpha:]][_$[:alnum:]]*)\n",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.function.portuscript"
+				},
+				"2": {
+					"name": "meta.definition.function.portuscript entity.name.function.portuscript"
+				}
+			},
+			"end": "(?=;)|(?<=\\})",
+			"patterns": [
+				{
+					"include": "#nome-funcao"
+				},
+				{
+					"include": "#parametros"
+				},
+				{
+					"include": "#declaracao-bloco"
+				}
+			]
+		},
+		"nome-funcao": {
+			"patterns": [
+				{
+					"include": "#chamaveis-embutidos"
+				},
+				{
+					"name": "meta.definition.function.portuscript entity.name.function.portuscript",
+					"match": "[_$[:alpha:]][_$[:alnum:]]*"
+				}
+			]
+		},
+		"parametros": {
+			"name": "meta.function.parameters.portuscript",
+			"begin": "(\\()",
+			"end": "(\\))",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.definition.parameters.begin.portuscript"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.definition.parameters.end.portuscript"
+				}
+			},
+			"patterns": [
+				{
+					"match": "(?x)\n  ([[:alpha:]_]\\w*)\n    \\s* (?: (,) | (?=[)#\\n=]))\n",
+					"captures": {
+						"1": {
+							"name": "variable.parameter.function.language.portuscript"
+						},
+						"2": {
+							"name": "punctuation.separator.parameters.portuscript"
+						}
+					}
+				},
+				{
+					"include": "#comentarios"
+				}
+			]
+		},
+		"operador-atribuicao": {
+			"name": "keyword.operator.assignment.portuscript keyword.operator.assignment.compound.portuscript",
+			"match": "(?x)\n     <<= | >>= | //= | \\*\\*=\n    | \\+= | -= | /=\n    | \\*= | %= | ~= | \\^= | &= | \\|=\n    | =\n"
+		},
+		"texto": {
+			"name": "string.quoted.double.portuscript",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.portuscript",
+					"match": "\\\\."
+				}
+			]
+		},
+		"expressao": {
+			"patterns": [
+				{
+					"include": "#comentarios"
+				},
+				{
+					"include": "#literais"
+				},
+				{
+					"include": "#texto"
+				},
+				{
+					"include": "#operador"
+				},
+				{
+					"include": "#grupo"
+				},
+				{
+					"include": "#chamada-funcao"
+				},
+				{
+					"include": "#funcoes-embutidas"
+				},
+				{
+					"include": "#nomes-magicos"
+				},
+				{
+					"include": "#pontuacao"
+				}
+			]
+		},
+		"literais": {
+			"patterns": [
+				{
+					"name": "constant.language.portuscript",
+					"match": "\\b(Verdadeiro|Falso|Nulo)\\b"
+				},
+				{
+					"include": "#number"
+				}
+			]
+		},
+		"number": {
+			"name": "constant.numeric.portuscript",
+			"patterns": [
+				{
+					"include": "#number-float"
+				},
+				{
+					"include": "#number-dec"
+				}
+			]
+		},
+		"number-float": {
+			"name": "constant.numeric.float.portuscript",
+			"match": "(?x)\n  (?<! \\w)(?:\n    (?:\n      \\.[0-9](?: _?[0-9] )*\n      |\n      [0-9](?: _?[0-9] )* \\. [0-9](?: _?[0-9] )*\n      |\n      [0-9](?: _?[0-9] )* \\.\n    ) (?: [eE][+-]?[0-9](?: _?[0-9] )* )?\n    |\n    [0-9](?: _?[0-9] )* (?: [eE][+-]?[0-9](?: _?[0-9] )* )\n  )([jJ])?\\b\n",
+			"captures": {
+				"1": {
+					"name": "storage.type.imaginary.number.portuscript"
+				}
+			}
+		},
+		"number-dec": {
+			"name": "constant.numeric.dec.portuscript",
+			"match": "(?x)\n  (?<![\\w\\.])(?:\n      [1-9](?: _?[0-9] )*\n      |\n      0+\n      |\n      [0-9](?: _?[0-9] )* ([jJ])\n      |\n      0 ([0-9]+)(?![eE\\.])\n  )\\b\n",
+			"captures": {
+				"1": {
+					"name": "storage.type.imaginary.number.portuscript"
+				},
+				"2": {
+					"name": "invalid.illegal.dec.portuscript"
+				}
+			}
+		},
+		"funcoes-embutidas": {
+			"patterns": [
+				{
+					"name": "support.function.builtin.portuscript",
+					"match": "(?x)\n  (?<!\\.) \\b(\n    imprima | leia | doc | int | texto | tamanho | instanciaDe | mesmoTipo\n  )\\b\n"
+				}
+			]
+		},
+		"operador": {
+			"match": "(?x)\n    \\b(?<!\\.)\n      (?:\n        (e | ou | nao | em)                         (?# 1)\n        |\n        (para | se | senao)  (?# 2)\n      )\n    (?!\\s*:)\\b\n\n    | (<< | >> | & | \\| | \\^ | ~)                          (?# 3)\n\n    | (\\*\\* | \\* | \\+ | - | % | // | /)                (?# 4)\n\n    | (!= | == | >= | <= | < | >)                          (?# 5)\n",
+			"captures": {
+				"1": {
+					"name": "keyword.operator.logical.portuscript"
+				},
+				"2": {
+					"name": "keyword.control.flow.portuscript"
+				},
+				"3": {
+					"name": "keyword.operator.bitwise.portuscript"
+				},
+				"4": {
+					"name": "keyword.operator.arithmetic.portuscript"
+				},
+				"5": {
+					"name": "keyword.operator.comparison.portuscript"
+				}
+			}
+		},
+		"pontuacao": {
+			"patterns": [
+				{
+					"name": "punctuation.separator.colon.portuscript",
+					"match": ":"
+				},
+				{
+					"name": "punctuation.separator.element.portuscript",
+					"match": ","
+				}
+			]
+		},
+		"ponto-e-virgula": {
+			"name": "punctuation.terminator.statement.portuscript",
+			"match": ";"
+		},
+		"comentarios": {
+			"name": "comment.line.number-sign.portuscript",
+			"begin": "(\\#)",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.definition.comment.portuscript"
+				}
+			},
+			"end": "($)"
+		},
+		"grupo": {
+			"begin": "\\(",
+			"end": "\\)",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.parenthesis.begin.portuscript"
+				}
+			},
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.parenthesis.end.portuscript"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#expressao"
+				}
+			]
+		},
+		"chamada-funcao": {
+			"name": "meta.function-call.portuscript",
+			"comment": "Regular function call of the type \"name(args)\"",
+			"begin": "(?x)\n  \\b(?=\n    ([[:alpha:]_]\\w*) \\s* (\\()\n  )\n",
+			"end": "(\\))",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.definition.arguments.end.portuscript"
+				}
+			},
+			"patterns": [
+				{
+					"patterns": [
+						{
+							"include": "#chamaveis-embutidos"
+						},
+						{
+							"name": "meta.function-call.generic.portuscript",
+							"match": "(?x)\n  \\b ([[:alpha:]_]\\w*) \\b\n"
+						}
+					]
+				},
+				{
+					"begin": "(\\()",
+					"end": "(?=\\))(?!\\)\\s*\\()",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.arguments.begin.portuscript"
+						}
+					},
+					"contentName": "meta.function-call.arguments.portuscript",
+					"patterns": [
+						{
+							"name": "punctuation.separator.arguments.portuscript",
+							"match": "(,)"
+						},
+						{
+							"include": "#expressao"
+						}
+					]
+				}
+			]
+		},
+		"funcoes-magicas": {
+			"match": "(?x)\n  \\b(\n    __(?:\n      adiciona | e | booleano | chame | contem\n      | divide | divide_inteiro | igual\n      | decimal | maior_ou_igual\n      | obtem | obtem_attributo | obtem_item | maior_que\n      | inteiro | tamanho | menor_que | mod | divide\n      | diferente | neg | proximo | ou | pos\n      | define | define_atributo | define_item | texto | subtrai )__\n  )\\b\n",
+			"captures": {
+				"1": {
+					"name": "support.function.magic.portuscript"
+				}
+			}
+		},
+		"variaveis-magicas": {
+			"comment": "Variáveis declaradas pelo ambiente de execução e que podem ser úteis",
+			"match": "(?x)\n  \\b(\n    __(?:      mapa | doc | arquivo | nome | caminho    )__\n  )\\b\n",
+			"captures": {
+				"1": {
+					"name": "support.variable.magic.portuscript"
+				}
+			}
+		},
+		"nomes-magicos": {
+			"patterns": [
+				{
+					"include": "#funcoes-magicas"
+				},
+				{
+					"include": "#variaveis-magicas"
+				}
+			]
+		},
+		"chamaveis-embutidos": {
+			"patterns": [
+				{
+					"include": "#funcoes-embutidas"
+				},
+				{
+					"include": "#nomes-magicos"
+				}
+			]
+		}
+	},
+	"scopeName": "source.ptst"
+}

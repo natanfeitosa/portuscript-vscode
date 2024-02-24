@@ -1,0 +1,46 @@
+{
+  "name": "portuscript-vscode",
+  "displayName": "Portuscript VSCode",
+  "description": "Provê syntax highlighting, pedaços de codigo e outras funcionalidades úteis para facilitar o desenvolvimento em Portuscript",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.86.0"
+  },
+  "author": "Natan Feitosa <natansantosapps@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/natanfeitosa/vscode-portuscript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/natanfeitosa/vscode-portuscript"
+  },
+  "bugs": {
+    "url": "https://github.com/natanfeitosa/vscode-portuscript/issues"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "icon": "icon.png",
+  "contributes": {
+    "languages": [
+      {
+        "id": "portuscript",
+        "aliases": [
+          "Portuscript",
+          "portuscript"
+        ],
+        "extensions": [
+          ".ptst"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "portuscript",
+        "scopeName": "source.ptst",
+        "path": "./syntaxes/portuscript.tmLanguage.json"
+      }
+    ]
+  }
+}
