@@ -27,6 +27,7 @@
     "portugues",
     "linguagem"
   ],
+  "icon": "icon.png",
   "contributes": {
     "languages": [
       {
@@ -38,7 +39,11 @@
         "extensions": [
           ".ptst"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "dark": "icon.png",
+          "light": "icon.png"
+        }
       }
     ],
     "grammars": [
