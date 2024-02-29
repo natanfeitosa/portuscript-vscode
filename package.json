@@ -16,6 +16,12 @@
   "bugs": {
     "url": "https://github.com/natanfeitosa/vscode-portuscript/issues"
   },
+  "scripts": {
+    "release": "standard-version",
+    "commit": "cz",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
   "categories": [
     "Programming Languages",
     "Other"
@@ -53,5 +59,15 @@
         "path": "./syntaxes/portuscript.tmLanguage.json"
       }
     ]
+  },
+  "devDependencies": {
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "standard-version": "^9.5.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
